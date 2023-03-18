@@ -6,22 +6,28 @@
 
     <parent>
         <groupId>ru.practicum</groupId>
-        <artifactId>stat</artifactId>
+        <artifactId>explore-with-me</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>ru.practicum</groupId>
-    <artifactId>stat-service</artifactId>
+    <artifactId>stats</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
 
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>stats-service</module>
+        <module>stats-dto</module>
+        <module>stats-client</module>
+    </modules>
     <dependencies>
         <dependency>
-            <groupId>ru.practicum</groupId>
-            <artifactId>stat-dto</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.3.Final</version>
         </dependency>
     </dependencies>
 
-    
+
 </project>
