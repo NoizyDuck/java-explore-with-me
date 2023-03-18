@@ -10,7 +10,7 @@ public class ClientService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public void get(String message){
+    public void get(String message) {
         ResponseEntity<Object> forEntity = restTemplate.getForEntity("http://localhost:9090/" + message, Object.class);
 
     }
