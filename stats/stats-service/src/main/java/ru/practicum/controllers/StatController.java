@@ -8,6 +8,7 @@ import ru.practicum.model.EndpointHitDto;
 import ru.practicum.model.ViewStats;
 import ru.practicum.service.HitService;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class StatController {
 
     @PostMapping("/hit")
     @ResponseStatus(HttpStatus.CREATED)
-    public void postHit(@RequestBody EndpointHitDto endpointHitDto) {
+    public void postHit(@Valid @RequestBody EndpointHitDto endpointHitDto) {
         hitService.post(endpointHitDto);
     }
 
