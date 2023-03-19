@@ -18,7 +18,7 @@ services:
     image: postgres:14-alpine
     container_name: stats-db
     ports:
-      - "9090:5432"
+      - "9091:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=iamroot
