@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.services.ClientService;
 
 @RestController
-public class Controller {
+public class ClientController {
     @Autowired
     private ClientService clientService;
 
