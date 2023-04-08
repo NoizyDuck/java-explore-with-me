@@ -22,6 +22,7 @@ public class EventMapper {
 
     public ShortEventDto eventToShortDto(Event event) {
         return ShortEventDto.builder().
+                id(event.getId()).
                 annotation(event.getAnnotation()).
                 category(categoryMapper.categoryToDto(event.getCategory())). //TODO: переделать мапер в мапере - херня
                 confirmedRequests(event.getConfirmedRequests()).

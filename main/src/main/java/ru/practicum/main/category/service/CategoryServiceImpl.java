@@ -3,11 +3,11 @@ package ru.practicum.main.category.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ru.practicum.main.category.repository.CategoryRepository;
 import ru.practicum.main.category.categoryMapper.CategoryMapper;
-import ru.practicum.main.category.model.Category;
 import ru.practicum.main.category.dto.CategoryDto;
 import ru.practicum.main.category.dto.CreateCategoryDto;
+import ru.practicum.main.category.model.Category;
+import ru.practicum.main.category.repository.CategoryRepository;
 import ru.practicum.main.event.repository.EventRepository;
 import ru.practicum.main.exceptions.CategoryParamException;
 import ru.practicum.main.exceptions.NotFoundException;
@@ -33,9 +33,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategory(Long catId) {
-        categoryRepository.findById(catId).orElseThrow(()->
+        categoryRepository.findById(catId).orElseThrow(() ->
                 new NotFoundException("such category not found"));
-        if(eventRepository.existsByCategoryId(catId)){
+        if (eventRepository.existsByCategoryId(catId)) {
             throw new CategoryParamException("category not empty");
         }
 
@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto updateCategory(Long catId, CreateCategoryDto createCategoryDto) {
-        Category category = categoryRepository.findById(catId).orElseThrow(()->
+        Category category = categoryRepository.findById(catId).orElseThrow(() ->
                 new NotFoundException("such category not found"));
         checkCategoryName(createCategoryDto.getName());
         category.setName(createCategoryDto.getName());
@@ -53,29 +53,26 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
 
-
     @Override
     public CategoryDto getCategoryById(Long catId) {
-        Category category = categoryRepository.findById(catId).orElseThrow(()->
+        Category category = categoryRepository.findById(catId).orElseThrow(() ->
                 new NotFoundException("such category not found"));
         return categoryMapper.categoryToDto(category);
     }
 
     @Override
     public List<CategoryDto> getCategoryWithParam(Integer from, Integer size) {
-        PageRequest pageRequest = PageRequestMapper.pageRequestValidaCreate(from,size);
-      List<Category> categoryList = categoryRepository.findAll(pageRequest).toList();
-      if(categoryList.isEmpty()){
-          return Collections.emptyList();
-      }
-      return categoryList.stream().map(categoryMapper::categoryToDto).collect(Collectors.toList());
+        PageRequest pageRequest = PageRequestMapper.pageRequestValidaCreate(from, size);
+        List<Category> categoryList = categoryRepository.findAll(pageRequest).toList();
+        if (categoryList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return categoryList.stream().map(categoryMapper::categoryToDto).collect(Collectors.toList());
     }
 
     private void checkCategoryName(String categoryName) {
-        if(categoryRepository.existsByName(categoryName)){
+        if (categoryRepository.existsByName(categoryName)) {
             throw new CategoryParamException("category with this name already exist");
         }
     }
-
-
 }

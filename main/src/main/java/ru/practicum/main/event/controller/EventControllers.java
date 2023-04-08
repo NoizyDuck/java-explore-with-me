@@ -3,6 +3,7 @@ package ru.practicum.main.event.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.main.event.ParamState;
 import ru.practicum.main.event.State;
 import ru.practicum.main.event.dto.CreateEventDto;
 import ru.practicum.main.event.dto.FullEventDto;
@@ -15,6 +16,7 @@ import ru.practicum.main.request.dto.UpdateStatusRequestDto;
 import ru.practicum.main.request.dto.UpdateStatusRequestResultDto;
 import ru.practicum.main.user.repository.UserRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -68,7 +70,7 @@ public class EventControllers {
 
     @GetMapping("/admin/events")
     public List<FullEventDto> getEventsWithParamsAdmin(@RequestParam(required = false) List<Long> usersId,
-                                                       @RequestParam(required = false) List<State> states,
+                                                       @RequestParam(required = false) State states,
                                                        @RequestParam(required = false) List<Integer> categoriesId,
                                                        @RequestParam(required = false) String rangeStart,
                                                        @RequestParam(required = false) String rangeEnd,
@@ -93,14 +95,16 @@ public class EventControllers {
                                             @RequestParam(defaultValue = "false", required = false) boolean onlyAvailable,
                                             @RequestParam(required = false) String sort,
                                             @RequestParam(defaultValue = "0", required = false) Integer from,
-                                            @RequestParam(defaultValue = "10", required = false) Integer size) {
+                                            @RequestParam(defaultValue = "10", required = false) Integer size,
+                                            HttpServletRequest httpServletRequest) {
+
         return eventService.getEventsWithParams(
-                text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
+                text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, httpServletRequest);
     }
 
     @GetMapping("/events/{id}")
-    public FullEventDto getEventById(@PathVariable Long id) {
-        return eventService.getEventById(id);
+    public FullEventDto getEventById(@PathVariable Long id, HttpServletRequest httpServletRequest) {
+        return eventService.getEventById(id, httpServletRequest);
     }
 
 }

@@ -44,6 +44,4 @@ public class CompilationController {
                                      @RequestBody CreateCompilationDto createCompilationDto) {
         return compilationService.updateCompilation(compId, createCompilationDto);
     }
-
-
 }

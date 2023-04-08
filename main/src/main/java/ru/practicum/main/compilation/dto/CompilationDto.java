@@ -4,6 +4,7 @@ import lombok.*;
 import ru.practicum.main.event.dto.ShortEventDto;
 
 import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

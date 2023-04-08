@@ -22,7 +22,7 @@ public class Compilation {
     private String title;
     @ManyToMany
     @JoinTable(name = "event_compilations",
-            joinColumns = @JoinColumn(name = "compilation_id"),
+            joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "event_id")
     )
     @OrderBy("eventDate")

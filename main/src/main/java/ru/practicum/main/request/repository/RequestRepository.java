@@ -12,7 +12,11 @@ import java.util.Optional;
 @Repository
 public interface RequestRepository extends JpaRepository<Request, Long> {
 
-    List<Request> findAllByEventIdAndRequesterId(Long eventId, Long requesterId);
+    @Query("select r from Request as r " +
+            "join Event as e ON r.eventId = e.id " +
+            "where r.eventId = :eventId and e.initiator.id = :userId")
+    List<Request> findAllByEventIdAndRequesterId(@Param(value = "userId") Long userId,
+                                              @Param("eventId") Long eventId);
     List<Request> findAllByRequesterId(Long requesterId);
     List<Request> findAllByEventId(Long eventId);
     Request findByIdAndEventId(Long requestId, Long eventId);
