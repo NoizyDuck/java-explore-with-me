@@ -53,12 +53,12 @@ public class RequestServiceImpl implements RequestService {
         if (!event.getRequestModeration() && requests.size() >= event.getParticipantLimit()) {
             throw new IncorrectRequestParameterException("Out of limit");
         }
-        Request request = Request.builder().
-                created(LocalDateTime.now()).
-                eventId(eventId).
-                requesterId(userId).
-                status(RequestStatus.PENDING).
-                build();
+        Request request = Request.builder()
+                .created(LocalDateTime.now())
+                .eventId(eventId)
+                .requesterId(userId)
+                .status(RequestStatus.PENDING)
+                .build();
 
 
         return requestMapper.requestToDto(requestRepository.save(request));

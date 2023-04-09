@@ -57,8 +57,8 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<ShortEventDto> getEventsByUserPrivate(Long userId, Integer from, Integer size) {
         PageRequest pageRequest = PageRequestMapper.pageRequestValidaCreate(from, size);
-        List<ShortEventDto> shortEventDtoList = eventRepository.findAllByInitiatorId(userId, pageRequest).stream().
-                map(eventMapper::eventToShortDto).collect(Collectors.toList());
+        List<ShortEventDto> shortEventDtoList = eventRepository.findAllByInitiatorId(userId, pageRequest).stream()
+                .map(eventMapper::eventToShortDto).collect(Collectors.toList());
         if (shortEventDtoList.isEmpty()) {
             return Collections.emptyList();
         }
@@ -151,8 +151,8 @@ public class EventServiceImpl implements EventService {
         getEventByIdAndInitiatorId(userId, eventId);
         List<Request> requestList = requestRepository.findAllByEventIdAndRequesterId(userId, eventId);
 
-        return requestList.stream().
-                map(requestMapper::requestToDto).collect(Collectors.toList());
+        return requestList.stream()
+                .map(requestMapper::requestToDto).collect(Collectors.toList());
     }
 
     @Transactional
@@ -428,11 +428,11 @@ public class EventServiceImpl implements EventService {
     private void sendStat(Event event, String ip) {
         String serviceName = "main-service";
         LocalDateTime localDateTime = LocalDateTime.now();
-        EndpointHitDto endpointHitDto = EndpointHitDto.builder().
-                app(serviceName).
-                uri("/events").
-                ip(ip).
-                timestamp(localDateTime.format(formatter))
+        EndpointHitDto endpointHitDto = EndpointHitDto.builder()
+                .app(serviceName)
+                .uri("/events")
+                .ip(ip)
+                .timestamp(localDateTime.format(formatter))
                 .build();
         statClient.addStats(endpointHitDto);
         sendStatForTheEvent(event.getId(), ip, localDateTime, serviceName);
