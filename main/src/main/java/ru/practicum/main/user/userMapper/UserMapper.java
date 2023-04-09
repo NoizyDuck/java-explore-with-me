@@ -9,24 +9,24 @@ import ru.practicum.main.user.model.User;
 @Component
 public class UserMapper {
     public UserShortDto userToShortDto(User user) {
-        return UserShortDto.builder().
-                id(user.getId()).
-                name(user.getName()).
-                build();
+        return UserShortDto.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .build();
     }
 
     public User createUserToUser(CreateUserDto createUserDto) {
-        return User.builder().
-                email(createUserDto.getEmail()).
-                name(createUserDto.getName()).
-                build();
+        return User.builder()
+                .email(createUserDto.getEmail())
+                .name(createUserDto.getName())
+                .build();
     }
 
     public UserDto userToUserDto(User user) {
-        return UserDto.builder().
-                id(user.getId()).
-                email(user.getEmail()).
-                name(user.getName()).
-                build();
+        return UserDto.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .build();
     }
 }

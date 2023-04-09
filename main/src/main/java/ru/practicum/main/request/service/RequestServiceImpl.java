@@ -37,7 +37,7 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public RequestDto createRequestToEventByUser(Long userId, Long eventId) {
-        if(requestRepository.existsByRequesterIdAndEventId(userId, eventId)){
+        if (requestRepository.existsByRequesterIdAndEventId(userId, eventId)) {
             throw new IncorrectRequestParameterException("request already exist");
         }
         Event event = eventRepository.findById(eventId).orElseThrow(() ->

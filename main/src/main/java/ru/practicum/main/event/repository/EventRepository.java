@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findAllByInitiatorId(Long initiatorId, PageRequest pageRequest);
 
-    Optional<Event> findByIdAndInitiatorId(Long id, Long initiator_id);
+    Optional<Event> findByIdAndInitiatorId(Long id, Long initiatorId);
 
     List<Event> findAllByIdIn(List<Long> eventIds);
 

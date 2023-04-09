@@ -16,18 +16,18 @@ public class CompilationMapper {
 
 
     public CompilationDto compilationToDto(Compilation compilation) {
-        return CompilationDto.builder().
-                id(compilation.getId()).
-                pinned(compilation.getPinned()).
-                title(compilation.getTitle()).
-                events(compilation.getEvents().stream().map(eventMapper::eventToShortDto).collect(Collectors.toList())).
-                build();
+        return CompilationDto.builder()
+                .id(compilation.getId())
+                .pinned(compilation.getPinned())
+                .title(compilation.getTitle())
+                .events(compilation.getEvents().stream().map(eventMapper::eventToShortDto).collect(Collectors.toList()))
+                .build();
     }
 
     public Compilation createDtoToCompilation(CreateCompilationDto createCompilationDto) {
-        return Compilation.builder().
-                pinned(createCompilationDto.getPinned()).
-                title(createCompilationDto.getTitle()).
-                build();
+        return Compilation.builder()
+                .pinned(createCompilationDto.getPinned())
+                .title(createCompilationDto.getTitle())
+                .build();
     }
 }

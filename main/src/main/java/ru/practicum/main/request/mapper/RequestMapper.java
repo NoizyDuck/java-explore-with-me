@@ -8,12 +8,12 @@ import ru.practicum.main.request.model.Request;
 public class RequestMapper {
 
     public RequestDto requestToDto(Request request) {
-        return RequestDto.builder().
-                id(request.getId()).
-                created(request.getCreated()).
-                event(request.getEventId()).
-                requester(request.getRequesterId()).
-                status(request.getStatus()).
-                build();
+        return RequestDto.builder()
+                .id(request.getId())
+                .created(request.getCreated())
+                .event(request.getEventId())
+                .requester(request.getRequesterId())
+                .status(request.getStatus())
+                .build();
     }
 }
