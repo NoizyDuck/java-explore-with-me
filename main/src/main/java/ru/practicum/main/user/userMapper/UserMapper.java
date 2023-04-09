@@ -1,13 +1,14 @@
 package ru.practicum.main.user.userMapper;
 
 import org.springframework.stereotype.Component;
-import ru.practicum.main.user.model.User;
 import ru.practicum.main.user.dto.CreateUserDto;
 import ru.practicum.main.user.dto.UserDto;
 import ru.practicum.main.user.dto.UserShortDto;
+import ru.practicum.main.user.model.User;
+
 @Component
 public class UserMapper {
-    public UserShortDto userToShortDto(User user){
+    public UserShortDto userToShortDto(User user) {
         return UserShortDto.builder().
                 id(user.getId()).
                 name(user.getName()).

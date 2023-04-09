@@ -17,7 +17,7 @@ public class MainServiceApplication {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();
- }
+    }
 
 
 }

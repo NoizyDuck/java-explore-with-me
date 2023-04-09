@@ -473,7 +473,6 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-
     private List<ViewStats> getStats(String startTime, String endTime, List<String> uris) {
         return statClient.getStats(startTime, endTime, uris, false);
     }

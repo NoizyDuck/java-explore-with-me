@@ -36,11 +36,4 @@ public class FullEventDto {
     private Long views;
 
 
-
-
-
-
-
-
-
 }

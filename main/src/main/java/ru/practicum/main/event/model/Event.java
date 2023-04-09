@@ -2,11 +2,9 @@ package ru.practicum.main.event.model;
 
 import lombok.*;
 import ru.practicum.main.category.model.Category;
-import ru.practicum.main.event.ParamState;
 import ru.practicum.main.event.State;
 import ru.practicum.main.location.Location;
 import ru.practicum.main.user.model.User;
-
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

@@ -16,21 +16,14 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
             "join Event as e ON r.eventId = e.id " +
             "where r.eventId = :eventId and e.initiator.id = :userId")
     List<Request> findAllByEventIdAndRequesterId(@Param(value = "userId") Long userId,
-                                              @Param("eventId") Long eventId);
+                                                 @Param("eventId") Long eventId);
+
     List<Request> findAllByRequesterId(Long requesterId);
+
     List<Request> findAllByEventId(Long eventId);
-    Request findByIdAndEventId(Long requestId, Long eventId);
+
     Optional<Request> findByIdAndRequesterId(Long requestId, Long requesterId);
+
     boolean existsByRequesterIdAndEventId(Long requesterId, Long eventId);
 
-    @Query("SELECT r FROM Request r " +
-            "WHERE r.eventId = :eventId AND " +
-            "r.requesterId = :initiatorId AND " +
-            "r.id in :requestIds " +
-            "ORDER BY r.created ASC")
-    List<Request> findRequestsForUpdating(
-            @Param("eventId") long eventId,
-            @Param("initiatorId") long initiatorId,
-            @Param("requestIds") List<Long> requestIds
-    );
 }

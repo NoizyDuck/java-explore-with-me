@@ -3,30 +3,24 @@ package ru.practicum.main.event.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.main.event.ParamState;
 import ru.practicum.main.event.State;
 import ru.practicum.main.event.dto.CreateEventDto;
 import ru.practicum.main.event.dto.FullEventDto;
 import ru.practicum.main.event.dto.ShortEventDto;
-import ru.practicum.main.event.repository.EventRepository;
 import ru.practicum.main.event.service.EventService;
 import ru.practicum.main.request.dto.RequestDto;
 import ru.practicum.main.request.dto.UpdateEventDto;
 import ru.practicum.main.request.dto.UpdateStatusRequestDto;
 import ru.practicum.main.request.dto.UpdateStatusRequestResultDto;
-import ru.practicum.main.user.repository.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class EventControllers {
     private final EventService eventService;
-    private final EventRepository eventRepository;
-    private final UserRepository userRepository;
 
     @GetMapping("/users/{userId}/events")
     public List<ShortEventDto> getEventsByIdPrivate(@PathVariable Long userId,
@@ -74,14 +68,14 @@ public class EventControllers {
                                                        @RequestParam(required = false) List<Integer> categoriesId,
                                                        @RequestParam(required = false) String rangeStart,
                                                        @RequestParam(required = false) String rangeEnd,
-                                                       @RequestParam(defaultValue = "0",required = false) Integer from,
-                                                       @RequestParam(defaultValue = "10",required = false) Integer size) {
+                                                       @RequestParam(defaultValue = "0", required = false) Integer from,
+                                                       @RequestParam(defaultValue = "10", required = false) Integer size) {
         return eventService.getEventsWithParamsAdmin(usersId, states, categoriesId, rangeStart, rangeEnd, from, size);
     }
 
     @PatchMapping("/admin/events/{eventId}")
     public FullEventDto updateEventByAdmin(@PathVariable Long eventId,
-                                    @RequestBody UpdateEventDto updateEventDto){
+                                           @RequestBody UpdateEventDto updateEventDto) {
         return eventService.updateEventByAdmin(eventId, updateEventDto);
     }
 
