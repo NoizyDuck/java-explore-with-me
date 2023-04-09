@@ -11,6 +11,6 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     Boolean existsByName(String name);
 
-    List<User> findAll(List<Long> ids, PageRequest pageRequest);
+    List<User> findAllByIdIn(List<Long> ids, PageRequest pageRequest);
 
 }

@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsersByIds(List<Long> ids, Integer from, Integer size) {
         PageRequest pageRequest = PageRequestMapper.pageRequestValidaCreate(from, size);
 
-        return userRepository.findAll(ids, pageRequest);
+        return userRepository.findAllByIdIn(ids, pageRequest);
     }
 
     @Override
