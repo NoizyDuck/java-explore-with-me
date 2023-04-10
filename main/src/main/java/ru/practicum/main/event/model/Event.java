@@ -33,7 +33,7 @@ public class Event {
     @JoinColumn(name = "location_id")
     private Location location;
     private Boolean paid = Boolean.FALSE;
-    private Integer participantLimit = 0;
+    private Long participantLimit = 0L;
     private Boolean requestModeration = Boolean.TRUE;
     private String title;
     private Integer confirmedRequests = 0;

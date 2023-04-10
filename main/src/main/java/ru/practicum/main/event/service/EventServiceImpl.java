@@ -3,7 +3,6 @@ package ru.practicum.main.event.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.main.category.model.Category;
 import ru.practicum.main.category.repository.CategoryRepository;
 import ru.practicum.main.event.State;
@@ -155,7 +154,6 @@ public class EventServiceImpl implements EventService {
                 .map(requestMapper::requestToDto).collect(Collectors.toList());
     }
 
-    @Transactional
     @Override
     public UpdateStatusRequestResultDto updateRequestStatus(Long userId, Long eventId, UpdateStatusRequestDto updateStatusRequestDto) {
         Event event = getEvent(eventId);
@@ -230,16 +228,14 @@ public class EventServiceImpl implements EventService {
         }
         if (updateEventDto.getStateAction() != null) {
             if (updateEventDto.getStateAction().equals(State.PUBLISH_EVENT)) {
-                if (event.getPublishedOn() != null) {
-                    throw new WrongStateException("event already published");
-                }
-                if (event.getState().equals(State.CANCELED)) {
-                    throw new WrongStateException("event already canceled");
+                if (event.getState() != State.PENDING) {
+                    throw new WrongStateException("Only pending events can be changed");
                 }
                 event.setState(State.PUBLISHED);
                 event.setPublishedOn(LocalDateTime.now());
-            } else if (updateEventDto.getStateAction().equals(State.REJECT_EVENT)) {
-                if (event.getPublishedOn() != null) {
+            }
+            if (updateEventDto.getStateAction().equals(State.REJECT_EVENT)) {
+                if (event.getState() == State.PUBLISHED) {
                     throw new WrongStateException("event already published");
                 }
                 event.setState(State.CANCELED);
@@ -345,7 +341,10 @@ public class EventServiceImpl implements EventService {
         Root<Event> root = criteriaQuery.from(Event.class);
         List<Predicate> predicates = new ArrayList<>();
 
-        if (users != null && !users.isEmpty()) {
+//        if (users != null && users.size() > 0) { CriteriaBuilder.In<Long> inClause = builder
+//                .in(root.get("initiator")); for (Long userId : users) { inClause.value(userId); } predicates.add(inClause); }
+
+        if (users != null && users.size() > 0) {
             Predicate userPredicate = root.get("initiator").in(users);
             predicates.add(userPredicate);
         }
@@ -353,7 +352,7 @@ public class EventServiceImpl implements EventService {
             Predicate statesPredicate = root.get("state").in(states);
             predicates.add(statesPredicate);
         }
-        if (categories != null && !categories.isEmpty()) {
+        if (categories != null && categories.size() > 0) {
             Predicate categoriesPredicate = root.get("category").in(categories);
             predicates.add(categoriesPredicate);
         }
@@ -377,7 +376,6 @@ public class EventServiceImpl implements EventService {
         return query.getResultList().stream().map(eventMapper::eventToFullDto).collect(Collectors.toList());
 
     }
-
 
     private Event getEventByIdAndInitiatorId(Long userId, Long eventId) {
         return eventRepository.findByIdAndInitiatorId(eventId, userId).orElseThrow(() ->

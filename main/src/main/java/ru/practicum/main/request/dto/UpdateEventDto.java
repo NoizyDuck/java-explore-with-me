@@ -22,7 +22,7 @@ public class UpdateEventDto {
     private LocalDateTime eventDate;
     private Location location;
     private Boolean paid;
-    private Integer participantLimit;
+    private Long participantLimit;
     private Boolean requestModeration;
     private State stateAction;
     private String title;

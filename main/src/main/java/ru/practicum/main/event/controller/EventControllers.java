@@ -63,19 +63,19 @@ public class EventControllers {
     }
 
     @GetMapping("/admin/events")
-    public List<FullEventDto> getEventsWithParamsAdmin(@RequestParam(required = false) List<Long> usersId,
+    public List<FullEventDto> getEventsWithParamsAdmin(@RequestParam(required = false) List<Long> users,
                                                        @RequestParam(required = false) State states,
-                                                       @RequestParam(required = false) List<Integer> categoriesId,
+                                                       @RequestParam(required = false) List<Integer> categories,
                                                        @RequestParam(required = false) String rangeStart,
                                                        @RequestParam(required = false) String rangeEnd,
                                                        @RequestParam(defaultValue = "0", required = false) Integer from,
                                                        @RequestParam(defaultValue = "10", required = false) Integer size) {
-        return eventService.getEventsWithParamsAdmin(usersId, states, categoriesId, rangeStart, rangeEnd, from, size);
+        return eventService.getEventsWithParamsAdmin(users, states, categories, rangeStart, rangeEnd, from, size);
     }
 
     @PatchMapping("/admin/events/{eventId}")
     public FullEventDto updateEventByAdmin(@PathVariable Long eventId,
-                                           @RequestBody UpdateEventDto updateEventDto) {
+                                           @Valid @RequestBody UpdateEventDto updateEventDto) {
         return eventService.updateEventByAdmin(eventId, updateEventDto);
     }
 

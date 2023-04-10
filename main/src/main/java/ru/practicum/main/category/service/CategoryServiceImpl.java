@@ -3,6 +3,7 @@ package ru.practicum.main.category.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.main.category.categoryMapper.CategoryMapper;
 import ru.practicum.main.category.dto.CategoryDto;
 import ru.practicum.main.category.dto.CreateCategoryDto;
@@ -16,7 +17,7 @@ import ru.practicum.main.pageRequest.PageRequestMapper;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -25,6 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final EventRepository eventRepository;
 
     @Override
+    @Transactional
     public CategoryDto createCategory(CreateCategoryDto createCategoryDto) {
         Category category = categoryMapper.createDtoToCategory(createCategoryDto);
         checkCategoryName(category.getName());
@@ -32,6 +34,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public void deleteCategory(Long catId) {
         categoryRepository.findById(catId).orElseThrow(() ->
                 new NotFoundException("such category not found"));
@@ -44,6 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public CategoryDto updateCategory(Long catId, CreateCategoryDto createCategoryDto) {
         Category category = categoryRepository.findById(catId).orElseThrow(() ->
                 new NotFoundException("such category not found"));

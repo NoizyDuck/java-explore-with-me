@@ -3,6 +3,7 @@ package ru.practicum.main.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.main.exceptions.NotFoundException;
 import ru.practicum.main.exceptions.UserParamException;
 import ru.practicum.main.pageRequest.PageRequestMapper;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -26,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.findAllByIdIn(ids, pageRequest);
     }
-
+    @Transactional
     @Override
     public UserDto createUser(CreateUserDto createUserDto) {
         User user = userMapper.createUserToUser(createUserDto);
@@ -37,6 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUserById(Long id) {
         userRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("User id " + id + " not found"));

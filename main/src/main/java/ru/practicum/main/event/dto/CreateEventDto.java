@@ -27,7 +27,7 @@ public class CreateEventDto {
     @NotNull
     private Location location;
     private Boolean paid;
-    private int participantLimit;
+    private Long participantLimit;
     private Boolean requestModeration;
     @NotNull
     private String title;
