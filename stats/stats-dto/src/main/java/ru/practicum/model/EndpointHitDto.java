@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class EndpointHitDto {
     @NotBlank
-
     private String app;
     @NotBlank
     private String uri;

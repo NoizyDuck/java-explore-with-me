@@ -2,6 +2,7 @@ package ru.practicum.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.model.EndpointHitDto;
@@ -9,7 +10,6 @@ import ru.practicum.model.ViewStats;
 import ru.practicum.service.HitService;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -27,11 +27,8 @@ public class StatController {
     @GetMapping("/stats")
     public List<ViewStats> getHit(@RequestParam String start,
                                   @RequestParam String end,
-                                  @RequestParam List<String> uris,
-                                  @RequestParam(defaultValue = "false") boolean unique) {
-        if (uris.isEmpty()) {
-            return Collections.emptyList();
-        }
+                                  @RequestParam(required = false) List<String> uris,
+                                  @RequestParam(defaultValue = "false") Boolean unique) {
         return hitService.getStat(start, end, uris, unique);
     }
 }
