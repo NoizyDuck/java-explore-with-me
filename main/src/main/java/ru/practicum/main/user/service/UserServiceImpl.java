@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.findAllByIdIn(ids, pageRequest);
     }
+
     @Transactional
     @Override
     public UserDto createUser(CreateUserDto createUserDto) {
