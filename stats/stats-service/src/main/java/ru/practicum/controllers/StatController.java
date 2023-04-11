@@ -9,7 +9,6 @@ import ru.practicum.model.ViewStats;
 import ru.practicum.service.HitService;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -27,11 +26,8 @@ public class StatController {
     @GetMapping("/stats")
     public List<ViewStats> getHit(@RequestParam String start,
                                   @RequestParam String end,
-                                  @RequestParam List<String> uris,
-                                  @RequestParam(defaultValue = "false") boolean unique) {
-        if (uris.isEmpty()) {
-            return Collections.emptyList();
-        }
+                                  @RequestParam(required = false) List<String> uris,
+                                  @RequestParam(defaultValue = "false") Boolean unique) {
         return hitService.getStat(start, end, uris, unique);
     }
 }

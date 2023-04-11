@@ -24,9 +24,16 @@ public class HitServiceImpl implements HitService {
 
     @Override
     public List<ViewStats> getStat(String start, String end, List<String> uris, Boolean unique) {
-        if (unique) {
-            return hitRepository.getUniqueStatisticByUris(start, end, uris);
+        if (uris != null && !uris.isEmpty()) {
+            if (unique) {
+                return hitRepository.getUniqueStatisticByUris(start, end, uris);
+            }
+            return hitRepository.getStatisticByUris(start, end, uris);
+        } else {
+            if (unique) {
+                return hitRepository.getUniqueStatisticByUrisNull(start, end);
+            }
+            return hitRepository.getStatisticByUrisNull(start, end);
         }
-        return hitRepository.getStatisticByUris(start, end, uris);
     }
 }

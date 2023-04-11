@@ -34,5 +34,19 @@ public interface HitRepository extends JpaRepository<EndpointHit, Integer> {
             @Param("end") String end,
             @Param("uris") List<String> uris
     );
+
+    @Query("SELECT new ru.practicum.model.ViewStats(h.app, h.uri, count(h.ip)) " +
+            "FROM EndpointHit h " +
+            "WHERE (h.timestamp BETWEEN ?1 AND ?2) " +
+            "GROUP BY h.app, h.uri " +
+            "ORDER BY count(h.ip) DESC")
+    List<ViewStats> getUniqueStatisticByUrisNull(String start, String end);
+
+    @Query("SELECT new ru.practicum.model.ViewStats(h.app, h.uri, count(DISTINCT h.ip)) " +
+            "FROM EndpointHit h " +
+            "WHERE (h.timestamp BETWEEN ?1 AND ?2) " +
+            "GROUP BY h.app, h.uri " +
+            "ORDER BY count(DISTINCT h.ip) DESC")
+    List<ViewStats> getStatisticByUrisNull(String start, String end);
 }
 
