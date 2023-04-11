@@ -119,18 +119,7 @@ public class EventServiceImpl implements EventService {
             }
             event.setEventDate(updateEventDto.getEventDate());
         }
-        if (updateEventDto.getLocation() != null) {
-            event.setLocation(updateEventDto.getLocation());
-        }
-        if (updateEventDto.getPaid() != null) {
-            event.setPaid(updateEventDto.getPaid());
-        }
-        if (updateEventDto.getParticipantLimit() != null) {
-            event.setParticipantLimit(updateEventDto.getParticipantLimit());
-        }
-        if (updateEventDto.getRequestModeration() != null) {
-            event.setRequestModeration(updateEventDto.getRequestModeration());
-        }
+        paramCheck(updateEventDto, event);
         if (updateEventDto.getStateAction() != null) {
             if (updateEventDto.getStateAction().equals(State.SEND_TO_REVIEW)) {
                 event.setState(State.PENDING);
@@ -211,18 +200,7 @@ public class EventServiceImpl implements EventService {
         if (updateEventDto.getDescription() != null) {
             event.setDescription(updateEventDto.getDescription());
         }
-        if (updateEventDto.getLocation() != null) {
-            event.setLocation(updateEventDto.getLocation());
-        }
-        if (updateEventDto.getPaid() != null) {
-            event.setPaid(updateEventDto.getPaid());
-        }
-        if (updateEventDto.getParticipantLimit() != null) {
-            event.setParticipantLimit(updateEventDto.getParticipantLimit());
-        }
-        if (updateEventDto.getRequestModeration() != null) {
-            event.setRequestModeration(updateEventDto.getRequestModeration());
-        }
+        paramCheck(updateEventDto, event);
         if (updateEventDto.getTitle() != null) {
             event.setTitle(updateEventDto.getTitle());
         }
@@ -251,6 +229,21 @@ public class EventServiceImpl implements EventService {
 
         return eventMapper.eventToFullDto(eventRepository.save(event));
 
+    }
+
+    private void paramCheck(UpdateEventDto updateEventDto, Event event) {
+        if (updateEventDto.getLocation() != null) {
+            event.setLocation(updateEventDto.getLocation());
+        }
+        if (updateEventDto.getPaid() != null) {
+            event.setPaid(updateEventDto.getPaid());
+        }
+        if (updateEventDto.getParticipantLimit() != null) {
+            event.setParticipantLimit(updateEventDto.getParticipantLimit());
+        }
+        if (updateEventDto.getRequestModeration() != null) {
+            event.setRequestModeration(updateEventDto.getRequestModeration());
+        }
     }
 
 
