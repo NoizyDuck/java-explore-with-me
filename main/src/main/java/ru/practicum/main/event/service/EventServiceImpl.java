@@ -5,6 +5,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.practicum.main.category.model.Category;
 import ru.practicum.main.category.repository.CategoryRepository;
+import ru.practicum.main.comment.model.Comment;
+import ru.practicum.main.comment.repository.CommentRepository;
 import ru.practicum.main.event.State;
 import ru.practicum.main.event.dto.CreateEventDto;
 import ru.practicum.main.event.dto.FullEventDto;
@@ -52,6 +54,7 @@ public class EventServiceImpl implements EventService {
     private final EntityManager entityManager;
     private final StatClient statClient;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private final CommentRepository commentRepository;
 
     @Override
     public List<ShortEventDto> getEventsByUserPrivate(Long userId, Integer from, Integer size) {
@@ -87,7 +90,8 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public FullEventDto getFullEventsInfoByUser(Long userId, Long eventId) {
-        return eventMapper.eventToFullDto(getEventByIdAndInitiatorId(userId, eventId));
+        List<Comment> comments = commentRepository.findAllByEventId(eventId);
+        return eventMapper.eventToFullDtoWithComments(getEventByIdAndInitiatorId(userId, eventId), comments.size());
     }
 
     @Override
@@ -231,20 +235,6 @@ public class EventServiceImpl implements EventService {
 
     }
 
-    private void paramCheck(UpdateEventDto updateEventDto, Event event) {
-        if (updateEventDto.getLocation() != null) {
-            event.setLocation(updateEventDto.getLocation());
-        }
-        if (updateEventDto.getPaid() != null) {
-            event.setPaid(updateEventDto.getPaid());
-        }
-        if (updateEventDto.getParticipantLimit() != null) {
-            event.setParticipantLimit(updateEventDto.getParticipantLimit());
-        }
-        if (updateEventDto.getRequestModeration() != null) {
-            event.setRequestModeration(updateEventDto.getRequestModeration());
-        }
-    }
 
 
     @Override
@@ -319,9 +309,10 @@ public class EventServiceImpl implements EventService {
     public FullEventDto getEventById(Long id, HttpServletRequest httpServletRequest) {
         Event event = getEvent(id);
         String ip = httpServletRequest.getRemoteAddr();
+        List<Comment> comments = commentRepository.findAllByEventId(event.getId());
         setView(event);
         sendStat(event, ip);
-        return eventMapper.eventToFullDto(eventRepository.save(event));
+        return eventMapper.eventToFullDtoWithComments(eventRepository.save(event), comments.size());
     }
 
 
@@ -333,9 +324,6 @@ public class EventServiceImpl implements EventService {
         CriteriaQuery<Event> criteriaQuery = builder.createQuery(Event.class);
         Root<Event> root = criteriaQuery.from(Event.class);
         List<Predicate> predicates = new ArrayList<>();
-
-//        if (users != null && users.size() > 0) { CriteriaBuilder.In<Long> inClause = builder
-//                .in(root.get("initiator")); for (Long userId : users) { inClause.value(userId); } predicates.add(inClause); }
 
         if (users != null && users.size() > 0) {
             Predicate userPredicate = root.get("initiator").in(users);
@@ -466,5 +454,21 @@ public class EventServiceImpl implements EventService {
 
     private List<ViewStats> getStats(String startTime, String endTime, List<String> uris) {
         return statClient.getStats(startTime, endTime, uris, false);
+    }
+
+
+    private void paramCheck(UpdateEventDto updateEventDto, Event event) {
+        if (updateEventDto.getLocation() != null) {
+            event.setLocation(updateEventDto.getLocation());
+        }
+        if (updateEventDto.getPaid() != null) {
+            event.setPaid(updateEventDto.getPaid());
+        }
+        if (updateEventDto.getParticipantLimit() != null) {
+            event.setParticipantLimit(updateEventDto.getParticipantLimit());
+        }
+        if (updateEventDto.getRequestModeration() != null) {
+            event.setRequestModeration(updateEventDto.getRequestModeration());
+        }
     }
 }

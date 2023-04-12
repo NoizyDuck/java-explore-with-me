@@ -64,4 +64,25 @@ public class EventMapper {
                 .views(event.getViews())
                 .build();
     }
+    public FullEventDto eventToFullDtoWithComments(Event event, Integer comments) {
+        return FullEventDto.builder()
+                .annotation(event.getAnnotation())
+                .confirmedRequests(event.getConfirmedRequests())
+                .createdOn(event.getCreatedOn())
+                .category(categoryMapper.categoryToDto(event.getCategory()))
+                .description(event.getDescription())
+                .eventDate(event.getEventDate())
+                .id(event.getId())
+                .location(event.getLocation())
+                .initiator(userMapper.userToShortDto(event.getInitiator()))
+                .paid(event.getPaid())
+                .participantLimit(event.getParticipantLimit())
+                .publishedOn(event.getPublishedOn())
+                .requestModeration(event.getRequestModeration())
+                .state(event.getState())
+                .title(event.getTitle())
+                .views(event.getViews())
+                .comments(comments)
+                .build();
+    }
 }
