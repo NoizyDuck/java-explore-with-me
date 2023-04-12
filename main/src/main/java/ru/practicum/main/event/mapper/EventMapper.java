@@ -64,6 +64,7 @@ public class EventMapper {
                 .views(event.getViews())
                 .build();
     }
+
     public FullEventDto eventToFullDtoWithComments(Event event, Integer comments) {
         return FullEventDto.builder()
                 .annotation(event.getAnnotation())
